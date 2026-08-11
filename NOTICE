@@ -1,0 +1,27 @@
+k12-lesson-toolkit — NOTICE
+
+This project adopts openly-licensed academic-standards data. Attribution per source:
+
+Learning Commons Knowledge Graph
+  https://github.com/learning-commons-org/knowledge-graph
+  Public JSONL export v1.11.0. Data provided by Learning Commons under CC BY 4.0:
+    - State academic standards: CC BY 4.0, via 1EdTech.
+    - Learning components: CC BY 4.0, via Achievement Network (ANet).
+    - Learning progressions: CC0 1.0 (public domain), via Student Achievement Partners (SAP).
+  Attribution statement (as published in the data):
+    "Knowledge Graph is provided by Learning Commons under the CC BY-4.0 license.
+     Learning Commons received state standards and written permission under CC BY-4.0
+     from 1EdTech."
+
+California Common Core State Standards - Mathematics
+  © California Department of Education. Common Core State Standards
+  © 2010 National Governors Association Center for Best Practices (NGA Center) and
+  Council of Chief State School Officers (CCSSO). Used under the CCSS public license.
+
+The data under data/ca-math/ is a filtered derivative of the Learning Commons public
+export, retaining each record's `license` and `attributionStatement` fields. We do not
+use the gated Learning Commons API/MCP connector; only the openly-licensed export.
+
+Supplementary sources (identified, not yet ingested):
+  - commonstandardsproject/api — Apache-2.0 (code) / CC BY 3.0 US (data)
+  - allenai/achieve-the-core — ODC-BY 1.0

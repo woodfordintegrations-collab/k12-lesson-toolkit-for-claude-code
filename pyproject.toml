@@ -1,0 +1,76 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "k12-lesson-toolkit"
+version = "0.1.0"
+description = "Standards-grounded K-12 lesson tooling for Claude Code: a 7-tool MCP standards server built from openly-licensed data, plus a Teacher/Student edition document renderer."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Benjamin Woodford" }]
+dependencies = [
+    "mcp>=1.28,<2",
+]
+
+[project.optional-dependencies]
+# The MCP standards server needs nothing beyond `mcp`. The document renderer is a
+# separate concern and a heavier dependency, so it is opt-in: `pip install .[docgen]`.
+docgen = [
+    "python-docx>=1.1",
+    # Figures are rasterized before they can be placed in a .docx. macOS covers this with
+    # QuickLook and no install, so cairosvg is what makes the figure path work everywhere
+    # else. It needs a native cairo (`brew install cairo`, `apt install libcairo2`) and
+    # installs cleanly without one, failing only at render time -- which is why the backend
+    # chain in docgen/rasterize.py probes by rendering rather than by importing.
+    "cairosvg>=2.7",
+    # Pillow was an undeclared dependency of this path. rasterize.py degrades gracefully when
+    # it is absent -- and that degradation silently drops BOTH the crop-to-ink (so QuickLook's
+    # square canvas survives into the document) and the blank-render guard. Declared, so the
+    # graceful path is a safety net rather than the thing that actually happens.
+    "pillow>=10",
+]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "mypy>=1.11",
+]
+
+[project.scripts]
+k12-standards-mcp = "k12_toolkit.mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/k12_toolkit"]
+
+# --- ruff -------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+# Reasonably strict, but no pep8-naming (N): the MCP tool signatures must use
+# the contract's camelCase parameter names verbatim (caseIdentifierUUID, etc.).
+select = ["E", "F", "I", "UP", "B", "SIM", "C4", "RUF"]
+
+# --- mypy -------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src", "tests"]
+mypy_path = "src"
+warn_unreachable = true
+enable_error_code = ["redundant-expr", "truthy-bool"]
+
+[[tool.mypy.overrides]]
+# Safety net: the MCP SDK ships types, but keep our gate green if a future
+# release drops py.typed on a submodule we touch.
+module = "mcp.*"
+ignore_missing_imports = true
+
+# --- pytest -----------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+pythonpath = ["src", "."]

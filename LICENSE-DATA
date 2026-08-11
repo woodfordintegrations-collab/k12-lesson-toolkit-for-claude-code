@@ -1,0 +1,67 @@
+DATA LICENCE — data/ca-math/
+============================
+
+The code in this repository is Apache-2.0 (see LICENSE). The data is not, and the
+boundary matters, because the two carry different obligations.
+
+Everything under `data/ca-math/` is a filtered derivative of the Learning Commons
+Knowledge Graph public JSONL export, v1.11.0, and travels under the licence its source
+records carry:
+
+    Creative Commons Attribution 4.0 International (CC BY 4.0)
+    https://creativecommons.org/licenses/by/4.0/
+
+Each record retains its own `license` and `attributionStatement` fields. Where a record's
+own attribution string differs from the general statement below, THE RECORD'S OWN STRING
+GOVERNS. There is no single correct attribution line for this dataset: the strings vary by
+jurisdiction and by node type, and four distinct ones touch the California mathematics
+vertical alone.
+
+General statement, as published in the source data:
+
+    "Knowledge Graph is provided by Learning Commons under the CC BY-4.0 license.
+     Learning Commons received state standards and written permission under CC BY-4.0
+     from 1EdTech."
+
+Per-layer provenance is in NOTICE.
+
+
+A rider that is easy to miss
+----------------------------
+
+The Common Core State Standards statement text inside these records is separately
+licensed by NGA Center and CCSSO under a bespoke public licence that is NOT Creative
+Commons and is narrower than CC BY 4.0 in two ways:
+
+  * it carries a purpose limitation — use must support the Common Core State Standards
+    Initiative;
+  * it mandates this notice:
+
+        © 2010 National Governors Association Center for Best Practices (NGA Center) and
+        Council of Chief State School Officers (CCSSO). All rights reserved.
+
+Do not relabel CCSS statement text as CC BY 4.0 on the strength of the surrounding
+record's licence field. The container and the contents are licensed by different parties.
+
+
+What is deliberately absent
+---------------------------
+
+`data/raw/` is not distributed here. It is the upstream Learning Commons export
+(approximately 812 MB), and it is not needed: `data/ca-math/` is the filtered product and
+the ingest builds the store from it directly.
+
+    python -m k12_toolkit.ingest --source data/ca-math --db data/standards.db
+
+The built SQLite store is a derived artifact and is not tracked. Rebuild it rather than
+copying it, so that what you query is what this repository actually contains.
+
+
+Licences expire
+---------------
+
+Every licence verdict this project rests on carries the date it was checked. That is not
+bookkeeping. Two grants relied on by adjacent open-education projects were withdrawn
+inside six months during 2026, and third-party indexes went on publishing the old answer
+afterwards. If you are depending on this file long after the date in its git history,
+re-check the source rather than trusting the copy in front of you.

@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+dist/
+build/
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Local data scratch (large ingested corpora go through the pipeline, not raw)
+/data/raw/
+*.log
+
+# Built sqlite store (rebuildable artifact: python -m k12_toolkit.ingest)
+data/standards.db
+*.db
